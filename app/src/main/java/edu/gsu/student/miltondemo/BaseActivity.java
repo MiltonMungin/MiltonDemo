@@ -13,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void toActivity(Class name) {
-        Intent intent = new Intent(this, ListViewActivity.class);
+        Intent intent = new Intent(this, name);
         startActivity(intent);
     }
 

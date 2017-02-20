@@ -1,5 +1,6 @@
 package edu.gsu.student.miltondemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -77,5 +78,13 @@ public class ListViewActivity extends AppCompatActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, "listView was clicked at position:"+position, Toast.LENGTH_SHORT).show();
         UtilLog.logD("testListViewActivity", String.valueOf(position));
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("message", "ListViewActivity");
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 }
