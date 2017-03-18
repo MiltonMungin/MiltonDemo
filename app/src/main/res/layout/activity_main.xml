@@ -40,6 +40,7 @@
             />
 
         <ImageButton
+            android:id="@+id/img_bt_right"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/bt_style_xml"
@@ -84,13 +85,48 @@
             android:background="@color/white"/>
 
     </LinearLayout>
-    <ListView
+    <FrameLayout android:id="@+id/main_fl"
         android:layout_below="@id/title_bar"
         android:layout_above="@id/tool_bar"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        >
 
-    </ListView>
+        <Button
+            android:id="@+id/main_timer_bt"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:text="Timer"
+            android:textAllCaps="false"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/main_animation_bt"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:text="Animation"
+            android:layout_marginLeft="115dp"
+            android:textAllCaps="false"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/main_animator_bt"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:text="Animator"
+            android:layout_marginLeft="230dp"
+            android:textAllCaps="false"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/main_quiz4_bt"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:text="Quiz 4"
+            android:layout_marginTop="50dp"
+            android:textAllCaps="false"
+            android:textSize="20sp"/>
+
+    </FrameLayout>
 </RelativeLayout>

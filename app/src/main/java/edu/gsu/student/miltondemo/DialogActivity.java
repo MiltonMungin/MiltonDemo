@@ -4,12 +4,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +26,23 @@ import edu.gsu.student.miltondemo.dialog.CustomDialog;
 public class DialogActivity extends BaseActivity {
 
     private int checkedID;
+    private final static int DIALOG = 12345;
+
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case DIALOG:
+                    Bundle bundle = msg.getData();
+                    String s = bundle.getString("msg");
+                    toastShort("Dialog Messag: " +s);
+                    toastShort("");
+                    break;
+                default:
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     //Butterknife implementation
     @BindView(R.id.rdg) RadioGroup radioGroup;
@@ -116,8 +136,15 @@ public class DialogActivity extends BaseActivity {
                     }
                 }
 //                showToastShort("Download Success");
-                progressDialog.cancel();
 
+  //              toastShort("Download Success");
+                Bundle bundle = new Bundle();
+                bundle.putString("msg", "Download success");
+                Message msg = Message.obtain();
+                msg.what = DIALOG;
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);
+                progressDialog.cancel();
             }
         }).start();
 

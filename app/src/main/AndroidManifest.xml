@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.gsu.student.miltondemo">
+
     <application
         android:name=".MiltonApplication"
         android:allowBackup="true"
@@ -9,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,8 +18,30 @@
         </activity>
         <activity android:name=".ListViewActivity" />
         <activity android:name=".ViewPagerActivity" />
-        <activity android:name=".BaseActivity"/>
-        <activity android:name=".DialogActivity"/>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".DialogActivity" />
+        <activity android:name=".AnimatorActivity" />
+        <activity
+            android:name=".ActivityA"
+            android:launchMode="standard" />
+        <activity
+            android:name=".ActivityB"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ActivityC"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ActivityD"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".TimerActivity"
+            android:label="@string/title_activity_timer"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".AnimationActivity"
+            android:label="@string/title_activity_animation"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Quiz4Activity"></activity>
     </application>
 
 </manifest>
