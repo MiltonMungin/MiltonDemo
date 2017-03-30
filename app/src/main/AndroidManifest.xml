@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.gsu.student.miltondemo">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".MiltonApplication"
         android:allowBackup="true"
@@ -41,7 +46,10 @@
             android:name=".AnimationActivity"
             android:label="@string/title_activity_animation"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Quiz4Activity"></activity>
+        <activity android:name=".Quiz4Activity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
     </application>
 
 </manifest>
