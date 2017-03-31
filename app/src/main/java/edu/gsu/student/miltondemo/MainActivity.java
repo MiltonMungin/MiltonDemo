@@ -7,11 +7,18 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +33,10 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
     private ImageButton bt1;
     private ImageButton bt3;
     private GestureDetector mGestureDetector;
+    private LinearLayout ll;
+    private Animation animLeft;
+    private Animation animRight;
+    private ListView mSliderListView;
 
     @BindView(R.id.main_fl) FrameLayout fl;
 
@@ -61,6 +72,21 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
         quizDialog();
     }
 
+    @OnClick(R.id.bt_profile)
+    public void profile() {
+        profileMenu();
+    }
+
+    private void profileMenu() {
+        if(ll.getVisibility() == View.VISIBLE){
+            ll.setVisibility(View.GONE);
+            ll.startAnimation(animLeft);
+        }else{
+            ll.setVisibility(View.VISIBLE);
+            ll.startAnimation(animRight);
+        }
+    }
+
     private void quizDialog() {
 
         final QuizDialog dialog = new QuizDialog(this, new QuizDialog.ICustomeDialogEventListener() {
@@ -91,7 +117,46 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
         initialListener();
         ButterKnife.bind(this);
         mGestureDetector = new GestureDetector(this, new simpleGestureListener());
+
+        mSliderListView = (ListView) findViewById(R.id.slider_content);
+
+        String[] sliderItems = {"MainActivity", "ViewPagerActivity", "ListViewActivity", "DialogActivity"};
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sliderItems);
+        mSliderListView.setAdapter(adapter);
+        mSliderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Object ob = mSliderListView.getItemAtPosition(position);
+                toastShort(ob.toString());
+                sliderClickActivity(ob.toString());
+            }
+        });
+
         fl.setOnTouchListener(this);
+        ll = (LinearLayout) findViewById(R.id.slider);
+        ll.setVisibility(View.GONE);
+
+        animLeft = AnimationUtils.loadAnimation(this, R.anim.anim_left);
+        animRight = AnimationUtils.loadAnimation(this, R.anim.anim_right);
+    }
+
+    private void sliderClickActivity(String activity){
+        switch (activity) {
+            case "MainActivity":
+                toActivity(MainActivity.class);
+                break;
+            case "ViewPagerActivity":
+                toActivity(ViewPagerActivity.class);
+                break;
+            case "ListViewActivity":
+                toActivity(ListViewActivity.class);
+                break;
+            case "DialogActivity":
+                toActivity(DialogActivity.class);
+                break;
+        }
+
     }
 
     private void initialView() {
@@ -114,8 +179,8 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
                 book.setAuthor("Milton");
                 bundle.putSerializable("book", book);
                 intent.putExtras(bundle);
-                //startActivity(intent);
-                startActivityForResult(intent, 1);
+                startActivity(intent);
+                //startActivityForResult(intent, 1);
             }
         });
 
@@ -166,7 +231,7 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
         return mGestureDetector.onTouchEvent(event);
     }
 
-    private class simpleGestureListener extends GestureDetector.SimpleOnGestureListener{
+    private class simpleGestureListener extends GestureDetector.SimpleOnGestureListener {
         public boolean onDown(MotionEvent e) {
             UtilLog.logD("MyGesture", "onDown");
             toastShort("onDown");
@@ -190,14 +255,23 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
         }
 
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            UtilLog.logD("MyGesture", "onSingleTapCpnfirmed");
-            toastShort("onSingleTapCpnfirmed");
+            UtilLog.logD("MyGesture", "onSingleTapConfirmed");
+            toastShort("onSingleTapConfirmed");
+
+            closeDrawer();
+
             return true;
         }
 
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             UtilLog.logD("MyGesture", "onScroll:" + (e2.getY() - e1.getY()) + " " + distanceX);
             toastShort("onScroll");
+            if (e2.getY() - e1.getY() > 3) {
+                openDrawer();
+            }
+            if (e2.getY() - e1.getY() < -3) {
+               closeDrawer();
+            }
             return true;
         }
 
@@ -217,6 +291,19 @@ public class MainActivity extends BaseActivity implements View.OnTouchListener {
             UtilLog.logD("MyGesture", "onDoubleTapEvent");
             toastShort("onDoubleTapEvent");
             return true;
+        }
+    }
+
+    public void openDrawer(){
+        if (ll.getVisibility() == View.GONE) {
+            ll.setVisibility(View.VISIBLE);
+            ll.startAnimation(animRight);
+        }
+    }
+    public void closeDrawer(){
+        if (ll.getVisibility() != View.GONE) {
+            ll.setVisibility(View.GONE);
+            ll.startAnimation(animLeft);
         }
     }
 
